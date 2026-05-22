@@ -1,4 +1,4 @@
-FROM openjdk:21
+FROM eclipse-temurin:21-jdk
 
 COPY ./target/prueba-1.jar app.jar
 
