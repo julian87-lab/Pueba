@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agenda Spring - Registrar Club</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@300;400;700&display=swap');
+        body {
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            min-height: 100vh;
+            font-family: 'Roboto', sans-serif;
+            color: #f0f0f0;
+        }
+        .navbar {
+            background: linear-gradient(90deg, #1a1a2e, #16213e) !important;
+            border-bottom: 3px solid #0d6efd;
+        }
+        .navbar-brand {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.6rem;
+            letter-spacing: 2px;
+            color: #4d9fff !important;
+        }
+        .nav-link { color: #ccc !important; transition: color 0.2s; }
+        .nav-link:hover, .nav-link.active { color: #4d9fff !important; }
+        .card {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+        }
+        .card-header-custom {
+            background: linear-gradient(90deg, #0d6efd, #0a58ca);
+            border-radius: 15px 15px 0 0;
+            padding: 1rem 1.5rem;
+        }
+        .card-header-custom h4 {
+            color: #fff;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.4rem;
+            letter-spacing: 1px;
+            margin: 0;
+        }
+        .form-label {
+            color: #4d9fff;
+            font-weight: 600;
+            font-size: 0.82rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .form-control, .form-select {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #fff;
+            border-radius: 8px;
+        }
+        .form-control:focus, .form-select:focus {
+            background: rgba(255,255,255,0.12);
+            border-color: #4d9fff;
+            color: #fff;
+            box-shadow: 0 0 0 3px rgba(77,159,255,0.25);
+        }
+        .form-control::placeholder { color: rgba(255,255,255,0.35); }
+        .form-select option { background: #1a2a3a; color: #fff; }
+        .form-text { color: rgba(255,255,255,0.45); font-size: 0.78rem; }
+        .section-divider {
+            border-top: 1px dashed rgba(255,255,255,0.15);
+            margin: 1.5rem 0;
+        }
+        .section-subtitle {
+            color: rgba(255,255,255,0.5);
+            font-size: 0.82rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+        }
+        .btn-guardar {
+            background: linear-gradient(90deg, #0d6efd, #0a58ca);
+            border: none;
+            color: #fff;
+            font-weight: 700;
+            border-radius: 8px;
+            padding: 0.65rem 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .btn-guardar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(13,110,253,0.45);
+            color: #fff;
+        }
+        .btn-outline-light {
+            border-color: rgba(255,255,255,0.25);
+            color: rgba(255,255,255,0.7);
+            border-radius: 8px;
+            padding: 0.65rem 1.5rem;
+        }
+        .btn-outline-light:hover {
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+        }
+        .alert-arch {
+            background: rgba(13,110,253,0.12);
+            border: 1px solid rgba(13,110,253,0.3);
+            color: rgba(255,255,255,0.75);
+            border-radius: 12px;
+        }
+        .alert-arch strong { color: #4d9fff; }
+
+        /* ── Jugadores seleccionados: resaltar opción marcada ── */
+        .form-select option:checked {
+            background-color: #0d6efd;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg shadow-lg">
+    <div class="container">
+        <a class="navbar-brand" href="/"><i class="bi bi-trophy-fill me-2"></i>AGENDA SPRING</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navMenu">
+            <div class="navbar-nav ms-auto gap-1">
+                <a class="nav-link px-3 active" href="/"><i class="bi bi-plus-circle me-1"></i>Registrar Club</a>
+                <a class="nav-link px-3" href="/listar"><i class="bi bi-list-ul me-1"></i>Ver Clubs</a>
+                <a class="nav-link px-3" href="/entrenadores"><i class="bi bi-person-badge me-1"></i>Entrenadores</a>
+                <a class="nav-link px-3" href="/asociaciones"><i class="bi bi-building me-1"></i>Asociaciones</a>
+                <a class="nav-link px-3" href="/competiciones"><i class="bi bi-award me-1"></i>Competiciones</a>
+                <a class="nav-link px-3" href="/jugadores"><i class="bi bi-people me-1"></i>Jugadores</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-4 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-header-custom">
+                    <h4>
+                        <i class="bi bi-shield-fill me-2"></i>
+                        <span th:text="${club.id != null} ? 'Editar Club' : 'Registrar Nuevo Club'">
+                            Registrar Nuevo Club
+                        </span>
+                    </h4>
+                </div>
+                <div class="card-body p-4">
+                    <form th:action="@{/guardar-club}" th:object="${club}" method="post">
+                        <input type="hidden" th:field="*{id}">
+
+                        <!-- ── DATOS BÁSICOS ── -->
+                        <p class="section-subtitle"><i class="bi bi-info-circle me-1"></i>Datos del Club</p>
+                        <div class="row g-3">
+                            <div class="col-md-8">
+                                <label class="form-label">Nombre del Club *</label>
+                                <input type="text" class="form-control" th:field="*{nombre}"
+                                       placeholder="Ej: Millonarios FC" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Año de Fundación</label>
+                                <input type="number" class="form-control" th:field="*{anoFundacion}"
+                                       placeholder="Ej: 1946" min="1800" max="2030">
+                            </div>
+                            <div class="col-md-12">
+                                <label class="form-label">Ciudad</label>
+                                <input type="text" class="form-control" th:field="*{ciudad}"
+                                       placeholder="Ej: Bogotá">
+                            </div>
+                        </div>
+
+                        <div class="section-divider"></div>
+
+                        <!-- ── RELACIONES ── -->
+                        <p class="section-subtitle"><i class="bi bi-link-45deg me-1"></i>Relaciones</p>
+                        <div class="row g-3">
+
+                            <!-- @OneToOne → Entrenador -->
+                            <div class="col-md-6">
+                                <label class="form-label">
+                                    <span class="badge bg-info me-1">@OneToOne</span> Entrenador
+                                </label>
+                                <select class="form-select" name="entrenadorId">
+                                    <option value="">-- Sin entrenador --</option>
+                                    <option th:each="e : ${entrenadores}"
+                                            th:value="${e.id}"
+                                            th:text="${e.nombre + ' ' + e.apellido}"
+                                            th:selected="${club.entrenador != null and club.entrenador.id == e.id}">
+                                    </option>
+                                </select>
+                                <div class="form-text">Un club tiene un solo entrenador</div>
+                            </div>
+
+                            <!-- @ManyToOne → Asociación -->
+                            <div class="col-md-6">
+                                <label class="form-label">
+                                    <span class="badge bg-warning text-dark me-1">@ManyToOne</span> Asociación
+                                </label>
+                                <select class="form-select" name="asociacionId">
+                                    <option value="">-- Sin asociación --</option>
+                                    <option th:each="a : ${asociaciones}"
+                                            th:value="${a.id}"
+                                            th:text="${a.nombre + ' (' + (a.pais != null ? a.pais : '') + ')'}"
+                                            th:selected="${club.asociacion != null and club.asociacion.id == a.id}">
+                                    </option>
+                                </select>
+                                <div class="form-text">Muchos clubs pertenecen a una asociación</div>
+                            </div>
+
+                            <!-- @ManyToMany → Competiciones -->
+                            <div class="col-md-12">
+                                <label class="form-label">
+                                    <span class="badge bg-danger me-1">@ManyToMany</span> Competiciones
+                                </label>
+                                <select class="form-select" name="competicionIds" multiple size="4">
+                                    <option th:each="c : ${competiciones}"
+                                            th:value="${c.id}"
+                                            th:text="${c.nombre}"
+                                            th:selected="${club.competiciones != null and club.competiciones.contains(c)}">
+                                    </option>
+                                </select>
+                                <div class="form-text">Mantén Ctrl presionado para seleccionar varias</div>
+                            </div>
+
+                            <!-- @OneToMany → Jugadores ← NUEVO -->
+                            <div class="col-md-12">
+                                <label class="form-label">
+                                    <span class="badge bg-success me-1">@OneToMany</span> Jugadores del Club
+                                </label>
+                                <!--
+                                  th:if: solo muestra el select si hay jugadores creados.
+                                  Si no hay ninguno, muestra un aviso con enlace para crear.
+                                -->
+                                <div th:if="${#lists.isEmpty(jugadores)}"
+                                     class="p-3 text-center"
+                                     style="background:rgba(255,255,255,0.05);border:1px dashed rgba(255,255,255,0.2);border-radius:8px;">
+                                    <i class="bi bi-person-x me-2" style="color:rgba(255,255,255,0.4);"></i>
+                                    <span style="color:rgba(255,255,255,0.5);font-size:0.85rem;">
+                                        No hay jugadores creados.
+                                        <a href="/jugadores" style="color:#4d9fff;">Crear jugadores aquí</a>
+                                    </span>
+                                </div>
+                                <select th:unless="${#lists.isEmpty(jugadores)}"
+                                        class="form-select" name="jugadorIds" multiple size="5">
+                                    <option th:each="j : ${jugadores}"
+                                            th:value="${j.id}"
+                                            th:text="${j.nombre + ' ' + j.apellido
+                                                       + ' — #' + j.numero
+                                                       + (j.posicion != null ? ' · ' + j.posicion : '')}"
+                                            th:selected="${club.jugadores != null and club.jugadores.contains(j)}">
+                                    </option>
+                                </select>
+                                <div class="form-text"
+                                     th:unless="${#lists.isEmpty(jugadores)}">
+                                    Mantén <kbd style="background:rgba(255,255,255,0.15);color:#fff;border:none;">Ctrl</kbd>
+                                    presionado para seleccionar varios jugadores
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="section-divider"></div>
+
+                        <!-- ── BOTONES ── -->
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-guardar">
+                                <i class="bi bi-save me-2"></i>
+                                <span th:text="${club.id != null} ? 'Actualizar Club' : 'Guardar Club'">Guardar Club</span>
+                            </button>
+                            <a href="/listar" class="btn btn-outline-light">
+                                <i class="bi bi-list-ul me-2"></i>Ver todos los clubs
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="alert-arch mt-3 p-3">
+                <strong><i class="bi bi-info-circle-fill me-2"></i>Arquitectura del proyecto</strong><br>
+                <small>
+                    <strong>Flujo:</strong> Navegador → Controller → JpaRepository → MySQL<br>
+                    <strong>Sin Service:</strong> El Controller llama directamente al Repository<br>
+                    <strong>Templates:</strong> index.html (formulario) | listar.html (resultados)
+                </small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
